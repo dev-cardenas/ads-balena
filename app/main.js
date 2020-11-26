@@ -1,5 +1,81 @@
 const electron = require('electron');
 const path = require('path');
+
+const express = require('express');
+const bodyParser = require('body-parser');
+const http = require('http');
+const socketIO = require('socket.io');
+const axios = require('axios');
+const cors = require('cors')
+
+const appExpress = express();
+
+const server = http.createServer(appExpress);
+
+var options = {
+  cors: {
+    origin: ['http://localhost:3000', 'http://127.0.0.1:3000' ],
+    methods: ["GET", "POST"],
+    allowedHeaders: ["my-custom-header"],
+    credentials: true
+  }
+
+};
+const io = socketIO(server, options);
+
+
+appExpress.use(cors('*'))
+appExpress.use(bodyParser.json());
+appExpress.use(bodyParser.urlencoded({ extended: false }));
+
+const appPort = 3500;
+const appServer = 3501;
+
+const urlImage = 'https://res.cloudinary.com/gametecgroup/image/upload/c_fit,f_auto,h_500,w_500';
+
+appExpress.post('/cec', (req, res) => {
+
+  const productOk = {};
+   // const image = {};
+  // const images = [];
+
+  const url = process.env.urlBaseApi ? process.env.urlBaseApi : 'https://api.atacadogames.com';
+
+  axios
+    .get(`${url}/compras/paraguai/atacadogames/${req.body.cec}`)
+    .then((response) => {
+      const product = response.data.product;
+      Object.keys(product).map((key) => {
+        if (key === 'images') {
+          productOk[key] = product[key].map(image => ({
+            original: `${urlImage}/${image}`,
+            originalClass: Object.keys(product.product_meta).length === 0 ? 'product' : '',
+          }));
+        } else {
+          productOk[key] = product[key];
+        }
+      });
+
+      productOk.domain = process.env.domain ? process.env.domain : 'atacadogames';
+      productOk.group = process.env.group ? process.env.group : 'default';
+      productOk.urlBase = process.env.urlBase ? process.env.urlBase : 'http://192.168.0.5:8000';
+      productOk.change = true;
+
+      console.log(req.body.cec)
+      console.log(productOk)
+      io.sockets.emit('change cec', productOk);
+      res.json(productOk);
+    })
+    .catch(e => console.log(`!!${e}`));
+});
+
+appExpress.get('/test', (req, res) => {
+  res.send('Welcome to your express API');
+});
+
+appExpress.listen(appPort, () => console.log(`App running on port ${appPort} 🔥`));
+server.listen(appServer, () => console.log(`Listening on port ${appServer}`));
+
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow;
