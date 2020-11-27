@@ -41,6 +41,9 @@ class home extends Component {
       .then(response => response.data)
       .catch(e => console.log("!!!!" + e));
 
+    //   console.log(this.state.urlBase, 'url base')
+    // console.log(group)
+
     let multimedia = [];
     for (let i = 0; i < group.length; i++) {
       if (group[i].is_use) {
@@ -135,7 +138,7 @@ class home extends Component {
   }
 
   render() {
-    console.log(this.state.change)
+    // console.log(this.state.change)
     return (
       <div>
         {this.state.change ? (

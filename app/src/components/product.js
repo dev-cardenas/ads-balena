@@ -54,7 +54,6 @@ class Product extends Component {
       ? Object.keys(cec.product_meta.featured_details)
       : [];
 
-      console.log(cec, keys)
 
     return (
       <div className='text-center'>
