@@ -19,8 +19,8 @@ var options = {
     allowedHeaders: ["my-custom-header"],
     credentials: true
   }
-
 };
+
 const io = socketIO(server, options);
 
 
@@ -58,7 +58,7 @@ appExpress.post('/cec', (req, res) => {
 
       productOk.domain = process.env.domain ? process.env.domain : 'atacadogames';
       productOk.group = process.env.group ? process.env.group : 'default';
-      productOk.urlBase = process.env.urlBase ? process.env.urlBase : 'http://192.168.0.5:8000';
+      productOk.urlBase = process.env.urlBase ? process.env.urlBase : 'http://192.168.0.4:8000';
       productOk.change = true;
 
       console.log(req.body.cec)
