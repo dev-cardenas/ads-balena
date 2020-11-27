@@ -41,6 +41,7 @@ class Product extends Component {
       }
     }
 
+
      this.intervalID =  setInterval(ScrollDiv, 70);
   }
 

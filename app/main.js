@@ -61,8 +61,8 @@ appExpress.post('/cec', (req, res) => {
       productOk.urlBase = process.env.urlBase ? process.env.urlBase : 'http://192.168.0.4:8000';
       productOk.change = true;
 
-      console.log(req.body.cec)
-      console.log(productOk)
+      // console.log(req.body.cec)
+      // console.log(productOk)
       io.sockets.emit('change cec', productOk);
       res.json(productOk);
     })
