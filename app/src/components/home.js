@@ -22,7 +22,7 @@ class home extends Component {
       domain: "atacadogames",
       group: "default",
       // urlBase: "http://192.168.220.191:8000",
-      urlBase: 'http://192.168.0.5:8000',
+      urlBase: 'http://192.168.0.4:8000',
       timer: 0
     };
   }
