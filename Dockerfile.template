@@ -35,7 +35,8 @@ RUN echo "#!/bin/bash" > /etc/X11/xinit/xserverrc \
 WORKDIR /usr/src/app
 
 # Move package.json to filesystem
-COPY ./ ./
+# COPY ./app/package.json ./
+COPY ./app ./
 
 # Install npm modules for the application
 # RUN JOBS=MAX npm install --unsafe-perm --production && npm cache clean --force && \
@@ -45,7 +46,7 @@ COPY ./ ./
 # COPY ./app ./
 
 # Build react app
-RUN JOBS=MAX npm run build
+# RUN JOBS=MAX npm run build
 
 ## uncomment if you want systemd
 ENV INITSYSTEM on
